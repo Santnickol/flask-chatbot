@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI-PM Assistant</title>
+    <script>
+    async function sendChat() {
+        const input = document.getElementById('chat-input');
+        const message = input.value;
+        input.value = '';
+        const resp = await fetch('/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({messages: [{role: 'user', content: message}]})
+        });
+        const data = await resp.json();
+        document.getElementById('chat-response').innerText = data.reply || data.error;
+    }
+    </script>
+</head>
+<body>
+    <h1>AI-PM Assistant</h1>
+    <div>
+        <label for="chat-input">Message:</label>
+        <input id="chat-input" type="text" size="60" />
+        <button onclick="sendChat()">Send</button>
+    </div>
+    <pre id="chat-response"></pre>
+</body>
+</html>
